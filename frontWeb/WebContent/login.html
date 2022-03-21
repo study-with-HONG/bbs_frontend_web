@@ -44,10 +44,9 @@
 							$("#id").val("");
 							$("#pwd").val("");
 						}else{
+							// 탭 별로 데이터를 관리하고, 탭이 닫히면 데이터 삭제
 							sessionStorage.setItem("login", JSON.stringify(json));
-							alert(json.name + "님 환영합니다");	
-							
-							location.href = "bbslist.html";
+							location.href = "bbsList.html";
 						}
 					},error:function(){
 						alert('error');

@@ -6,14 +6,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+	<h1>게시판</h1>
 	<script type="text/javascript">
 		$(document).ready(function () {
-			let str = sessionStorage.getItem("login");
+			let str = sessionStorage.getItem("login"); // login에서 보낸 데이터 가져오기
+			let json = JSON.parse(str); // str -> json
 			
-			let json = JSON.parse(str);
-			
-			alert(json.name);
-		})
+			alert(json.name + "님 환영합니다.");
+		});
 	</script>
 </body>
 </html>
