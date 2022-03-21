@@ -38,8 +38,7 @@
 					type:"post",
 					data:{ id:$("#id").val(), pwd:$("#pwd").val() },
 					success:function(json){
-					//	alert('success');
-					//	alert(JSON.stringify(json));
+						//alert(JSON.stringify(json));
 						if(json == ""){
 							alert("id나 비밀번호를 확인하세요");
 							$("#id").val("");
@@ -49,12 +48,12 @@
 							alert(json.name + "님 환영합니다");	
 							
 							location.href = "bbslist.html";
-						}			
+						}
 					},error:function(){
 						alert('error');
-					}			
+					}
 				});
-			});	
+			});
 		});
 	</script>
 </body>
