@@ -16,7 +16,7 @@
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
-					<th>번호</th><th>제목</th><th>작성자</th><th>seq</th>
+					<th>번호</th><th>제목</th><th>작성자</th><th>seq</th><th>작성일</th>
 				</tr>
 			</thead>
 			
@@ -33,7 +33,6 @@
 		$(document).ready(function () {
 			let str = sessionStorage.getItem("login"); // login에서 보낸 데이터 가져오기
 			let json = JSON.parse(str); // str -> json
-			alert(json.name + "님 환영합니다.");
 			
 			$.ajax({
 				url:"http://localhost:3000/getBbsList",
@@ -42,11 +41,13 @@
 					//alert("success");
 					//alert(JSON.stringify(list));
 					$.each(list, function (i, item) {
+						//let date = new SimpleDateFormat("yyyy-mm-dd").format(item.wdate);
 						let str = "<tr>"
 									+ "<th>" + (i + 1) + "</th>"
 									+ "<td>" + item.title + "</td>"
 									+ "<td>" + item.id + "</td>"
 									+ "<td>" + item.seq + "</td>"
+									+ "<td>" + item.wdate + "</td>"
 								+ "</tr>";
 						$("tbody").append(str);
 					});

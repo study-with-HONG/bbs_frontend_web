@@ -32,12 +32,36 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<button type="button" id="btn" class="btn btn-secondary">작성완료</button>
+							<button type="button" id="writeBtn" class="btn btn-secondary">등록</button>
 						</td>	
 					</tr>
 				</table>
 			</div>
 		</form>
 	</div>
+	<script type="text/javascript">
+		let login = sessionStorage.getItem("login");
+		let id = JSON.parse(login).id;
+		$("#id").val(id);
+		
+		$("#writeBtn").click(function() {
+			$.ajax({
+				url:"http://localhost:3000/bbsWrite",
+				type:"get",
+				data:$("#frm").serialize(),
+				success:function(msg){
+					//alert('success')
+					if(msg == "YES"){
+						alert('작성 완료');
+						location.href = "bbsList.html";	
+					}else{
+						alert('게시글 업로드에 실패하였습니다.');
+					}
+				},error:function(){
+					alert('error');
+				}
+			});
+		});
+	</script>
 </body>
 </html>
