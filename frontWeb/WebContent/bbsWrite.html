@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+	input{border-style: none;}
+</style>
+</head>
+<body>
+	<div class="container" align="center">
+		<h2>게시글 작성</h2>
+		<form id="frm">
+			<div>
+				<table class="table table-bordered">
+				<col width="100"><col width="400">
+					<tr>
+						<th>아이디</th>
+						<td><input type="text" id="id" readonly="readonly"></td>
+					</tr>
+					<tr>
+						<th>제목</th>
+						<td><input type="text" class="form-control" id="title"></td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td align="center"><textarea class="form-control" rows="10" id="content"></textarea></td>
+					</tr>
+				</table>
+			</div>
+			
+			<div>
+				<button class="btn btn-secondary" type="button" id="ok">완료</button>
+			</div>
+		</form>
+	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// 작성 완료
+			$("#ok").click(function(){
+				location.href = "bbsList.html";
+			});
+		});
+	</script>
+</body>
+</html>
