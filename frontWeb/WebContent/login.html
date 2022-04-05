@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style type="text/css">
+#app{margin: auto; margin-top: 60px; padding: 10px;
+	 width: 60%; border: 3px solid #8ac007;}
+</style>
+</head>
+<body>
+	<div id="app" align="center">
+		<h2>로그인</h2>
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" id="id" placeholder="아이디 입력"></td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="text" id="pwd" placeholder="비밀번호 입력"></td>
+			</tr>
+			<tr>
+				<td colspan=2>
+					<button type="button" id="login">로그인</button>
+					<button type="button" id="register">회원가입</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<script type="text/javascript">
+		$("#register").click(function(){
+			location.href = "register.html";
+		});
+	</script>
+</body>
+</html>
