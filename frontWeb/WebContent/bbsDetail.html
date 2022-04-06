@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+	.margin{margin-top: 50px;}
+</style>
+</head>
+<body>
+	<div class="container margin" align="center">
+		<div>
+			<table class="table table-bordered">
+			<col width="100"><col width="400">
+				<tr>
+					<th>작성자</th><td id="id"></td>
+				</tr>
+				<tr>
+					<th>제목</th><td id="title"></td>
+				</tr>
+				<tr>
+					<th>작성날짜</th><td id="wdate"></td>
+				</tr>
+				<tr>
+					<th>조회수</th><td id="readcount"></td>
+				</tr>
+				<tr>
+					<th>본문</th>
+					<td align="center"><textarea class="form-control" rows="10" id="content" readonly="readonly"></textarea></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div>
+			<button class="btn btn-secondary" type="button" id="reply">답글</button>
+			<button class="btn btn-secondary" type="button" id="update">수정</button>
+			<button class="btn btn-secondary" type="button" id="delete">삭제</button>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		const url = new URL(location.href);
+		const urlParams = url.searchParams;
+		let seq = urlParams.get("seq");
+		
+		// 게시글 디테일 정보 불러오기
+		$.ajax({
+			url:"http://localhost:3000/bbsdetail",
+			type:"get",
+			data:{"seq":seq},
+			success:function(detail){
+				//alert("success");
+				$("#id").text(detail.id); 		// text, html 둘 다 가능
+				$("#title").html(detail.title); // val은 content에만 가능
+				$("#wdate").html(detail.wdate);
+				$("#readcount").html(detail.readcount);
+				$("#content").val(detail.content);
+				
+				// 수정, 삭제 버튼 숨기기
+				let login = sessionStorage.getItem("login");
+				let id = JSON.parse(login).id
+				
+				if(id != detail.id){
+					$("#update").hide();
+					$("#delete").hide();
+				}
+			},error:function(){
+				alert("error");
+			}
+		});
+		
+		// 답글
+		$("#reply").click(function(){
+			location.href = "bbsReply.html";
+		});
+		
+		// 수정
+		$("#update").click(function(){
+			location.href = "bbsUpdate.html";
+		});
+		
+		// 삭제
+		$("#delete").click(function(){
+			$.ajax({
+				url:"http://localhost:3000/bbsdelete",
+				type:"get",
+				data:{"seq":seq},
+				success:function(msg){
+					//alert("success");
+					if(msg){
+						alert("게시글 삭제 완료")
+						location.href = "bbsList.html";
+					}else{
+						alert("다시 시도해주십니오.")
+					}
+				},error:function(){
+					alert("error");
+				}
+			});
+		});
+	</script>
+</body>
+</html>

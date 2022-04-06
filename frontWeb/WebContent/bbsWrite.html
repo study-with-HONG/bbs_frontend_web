@@ -6,27 +6,28 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
+	.margin{margin-top: 50px;}
 	input{border-style: none;}
 </style>
 </head>
 <body>
-	<div class="container" align="center">
+	<div class="container margin" align="center">
 		<h2>게시글 작성</h2>
-		<form id="frm">
+		<form id="bbsinf">
 			<div>
 				<table class="table table-bordered">
 				<col width="100"><col width="400">
 					<tr>
 						<th>아이디</th>
-						<td><input type="text" id="id" readonly="readonly"></td>
+						<td><input type="text" id="id" name="id" readonly="readonly"></td>
 					</tr>
 					<tr>
 						<th>제목</th>
-						<td><input type="text" class="form-control" id="title"></td>
+						<td><input class="form-control" type="text" id="title" name="title"></td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td align="center"><textarea class="form-control" rows="10" id="content"></textarea></td>
+						<td align="center"><textarea class="form-control" rows="10" id="content" name="content"></textarea></td>
 					</tr>
 				</table>
 			</div>
@@ -39,9 +40,31 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			// 작성 완료
+			// 아이디 정보 보여주기
+			let login = sessionStorage.getItem("login");
+			let id = JSON.parse(login).id // string -> json
+			$("#id").val(id);
+			
+			
+			// 게시글 작성
 			$("#ok").click(function(){
-				location.href = "bbsList.html";
+				//alert($("#bbsinf").serialize()); // name속성 필요
+				$.ajax({
+					url:"http://localhost:3000/bbswrite",
+					type:"get",
+					data:$("#bbsinf").serialize(),
+					success:function(msg){
+						//alert("success");
+						if(msg == "yes"){
+							alert("게시물 작성 완료");
+							location.href = "bbsList.html";
+						}else{
+							alert("게시물 작성 실패");
+						}
+					},error:function(){
+						alert("error");
+					}
+				});
 			});
 		});
 	</script>
