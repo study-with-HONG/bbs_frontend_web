@@ -37,6 +37,7 @@
 			<button class="btn btn-secondary" type="button" id="reply">답글</button>
 			<button class="btn btn-secondary" type="button" id="update">수정</button>
 			<button class="btn btn-secondary" type="button" id="delete">삭제</button>
+			<button class="btn btn-secondary" type="button" id="list">목록</button>
 		</div>
 	</div>
 	
@@ -70,15 +71,15 @@
 				alert("error");
 			}
 		});
-		
+				
 		// 답글
 		$("#reply").click(function(){
-			location.href = "bbsReply.html";
+			location.href = "bbsReply.html?seq=" + seq;
 		});
 		
 		// 수정
 		$("#update").click(function(){
-			location.href = "bbsUpdate.html";
+			location.href = "bbsUpdate.html?seq=" + seq;
 		});
 		
 		// 삭제
@@ -89,7 +90,7 @@
 				data:{"seq":seq},
 				success:function(msg){
 					//alert("success");
-					if(msg){
+					if(msg == "yes"){
 						alert("게시글 삭제 완료")
 						location.href = "bbsList.html";
 					}else{
@@ -99,6 +100,12 @@
 					alert("error");
 				}
 			});
+		});
+		
+
+		// 목록
+		$("#list").click(function(){
+			location.href = "bbsList.html";
 		});
 	</script>
 </body>

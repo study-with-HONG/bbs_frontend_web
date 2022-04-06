@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+	.margin{margin-top: 50px;}
+	input{border-style: none;}
+</style>
+</head>
+<body>
+	<div class="container margin" align="center">
+		<h2>게시글 수정</h2>
+		<form id="bbsinf">
+			<div>
+				<table class="table table-bordered">
+				<col width="100"><col width="400">
+					<tr>
+						<th>아이디</th>
+						<td><input type="text" id="id" name="id" readonly="readonly"></td>
+					</tr>
+					<tr>
+						<th>제목</th>
+						<td><input class="form-control" type="text" id="title" name="title"></td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td align="center"><textarea class="form-control" rows="10" id="content" name="content"></textarea></td>
+					</tr>
+				</table>
+			</div>
+			
+			<div>
+				<button class="btn btn-secondary" type="button" id="ok">완료</button>
+			</div>
+		</form>
+	</div>
+	
+	<script type="text/javascript">
+		// 게시글 내용 불러오기
+		const url = new URL(location.href);
+		const urlParams = url.searchParams;
+		let seq = urlParams.get("seq");
+		
+		$.ajax({
+			url:"http://localhost:3000/bbsdetail",
+			type:"get",
+			data:{"seq":seq},
+			success:function(detail){
+				$("#id").val(detail.id);
+				$("#title").val(detail.title);
+				$("#content").val(detail.content);
+			},error:function(){
+				alert("error");
+			}
+		});
+		
+		// 게시글 수정
+		$("#ok").click(function(){
+			//alert($("#bbsinf").serialize());
+			$.ajax({
+				url:"http://localhost:3000/bbsupdate",
+				type:"get",
+				data:{"seq":seq, "title":$("#title").val(), "content":$("#content").val()},
+				success:function(msg){
+					//alert("success");
+					if(msg == "yes"){
+						location.href = "bbsDetail.html?seq=" + seq;
+					}else{
+						alert("다시 시도해주십니오.");
+					}
+				},error:function(){
+					alert("error");
+				}
+			});
+		});
+	</script>
+</body>
+</html>
