@@ -6,7 +6,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
-	.margin{margin-top: 50px;}
+	.margin{margin-top: 50px; margin-bottom: 50px;}
+	input{border-style: none;}
 </style>
 </head>
 <body>
@@ -32,17 +33,34 @@
 				</tr>
 			</table>
 		</div>
-		
+		<br><br><br>
 		<div>
-			<button class="btn btn-secondary" type="button" id="reply">답글</button>
-			<button class="btn btn-secondary" type="button" id="update">수정</button>
-			<button class="btn btn-secondary" type="button" id="delete">삭제</button>
-			<button class="btn btn-secondary" type="button" id="list">목록</button>
+			<h2>답글 작성</h2>
+			<form id="replyinf">
+				<table class="table table-bordered">
+				<col width="100"><col width="400">
+					<tr>
+						<th>아이디</th>
+						<td><input type="text" id="replyid" name="replyid" readonly="readonly"></td>
+					</tr>
+					<tr>
+						<th>제목</th>
+						<td><input class="form-control" type="replytext" id="replytitle" name="title"></td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td align="center"><textarea class="form-control" rows="10" id="replycontent" name="replycontent"></textarea></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div>
+			<button class="btn btn-secondary" type="button" id="ok">완료</button>
 		</div>
 	</div>
 	
 	<script type="text/javascript">
-		// 게시글 디테일 정보 불러오기
+		// 본문 불러오기
 		const url = new URL(location.href);
 		const urlParams = url.searchParams;
 		let seq = urlParams.get("seq");
@@ -53,58 +71,39 @@
 			data:{"seq":seq},
 			success:function(detail){
 				//alert("success");
-				$("#id").text(detail.id); 		// text, html 둘 다 가능
-				$("#title").html(detail.title); // val은 content에만 가능
+				$("#id").text(detail.id);
+				$("#title").html(detail.title);
 				$("#wdate").html(detail.wdate);
 				$("#readcount").html(detail.readcount);
 				$("#content").val(detail.content);
-				
-				// 수정, 삭제 버튼 숨기기
-				let login = sessionStorage.getItem("login");
-				let id = JSON.parse(login).id
-				
-				if(id != detail.id){
-					$("#update").hide();
-					$("#delete").hide();
-				}
 			},error:function(){
 				alert("error");
 			}
 		});
-				
-		// 답글
-		$("#reply").click(function(){
-			location.href = "bbsReply.html?seq=" + seq;
-		});
+	
+		// 답글 작성자 아이디 불러오기
+		let login = sessionStorage.getItem("login");
+		let id = JSON.parse(login).id
+		$("#replyid").val(id);
 		
-		// 수정
-		$("#update").click(function(){
-			location.href = "bbsUpdate.html?seq=" + seq;
-		});
-		
-		// 삭제
-		$("#delete").click(function(){
+		// 답글 작성
+		$("#ok").click(function(){
 			$.ajax({
-				url:"http://localhost:3000/bbsdelete",
+				url:"http://localhost:3000/reply",
 				type:"get",
-				data:{"seq":seq},
+				data:{"seq":seq, "title":$("#replytitle").val(), "content":$("#replycontent").val()},
 				success:function(msg){
 					//alert("success");
 					if(msg == "yes"){
-						alert("게시글 삭제 완료")
+						alert("작성 완료");
 						location.href = "bbsList.html";
 					}else{
-						alert("다시 시도해주십니오.")
+						alert("작성 실패");
 					}
 				},error:function(){
 					alert("error");
 				}
 			});
-		});
-		
-		// 목록
-		$("#list").click(function(){
-			location.href = "bbsList.html";
 		});
 	</script>
 </body>
