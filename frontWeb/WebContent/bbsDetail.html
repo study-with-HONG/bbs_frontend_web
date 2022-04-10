@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
 	.margin{margin-top: 50px;}
+	th{text-align: center;}
 </style>
 </head>
 <body>
@@ -46,24 +47,25 @@
 		const url = new URL(location.href);
 		const urlParams = url.searchParams;
 		let seq = urlParams.get("seq");
+		//alert(seq)
 		
 		$.ajax({
 			url:"http://localhost:3000/bbsdetail",
 			type:"get",
 			data:{"seq":seq},
-			success:function(detail){
+			success:function(data){
 				//alert("success");
-				$("#id").text(detail.id); 		// text, html 둘 다 가능
-				$("#title").html(detail.title); // val은 content에만 가능
-				$("#wdate").html(detail.wdate);
-				$("#readcount").html(detail.readcount);
-				$("#content").val(detail.content);
+				$("#id").text(data.id); 		// text, html 둘 다 가능
+				$("#title").html(data.title);
+				$("#wdate").html(data.wdate);
+				$("#readcount").html(data.readcount);
+				$("#content").val(data.content); // val은 content에만 가능
 				
 				// 수정, 삭제 버튼 숨기기
 				let login = sessionStorage.getItem("login");
 				let id = JSON.parse(login).id
 				
-				if(id != detail.id){
+				if(id != data.id){
 					$("#update").hide();
 					$("#delete").hide();
 				}

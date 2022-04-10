@@ -8,6 +8,7 @@
 <style>
 	.margin{margin-top: 50px;}
 	input{border-style: none;}
+	th{text-align: center;}
 </style>
 </head>
 <body>
@@ -48,10 +49,10 @@
 			url:"http://localhost:3000/bbsdetail",
 			type:"get",
 			data:{"seq":seq},
-			success:function(detail){
-				$("#id").val(detail.id);
-				$("#title").val(detail.title);
-				$("#content").val(detail.content);
+			success:function(data){
+				$("#id").val(data.id);
+				$("#title").val(data.title);
+				$("#content").val(data.content);
 			},error:function(){
 				alert("error");
 			}
